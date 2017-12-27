@@ -4,9 +4,9 @@ import Person from './Person/Person';
 
 class App extends Component {
     state = {persons:[
-        {name: 'schemr', age: 34},
-        {name: 'chris', age: 33},
-        {name: 'zesta', age: 30}
+        {id: 'A', name: 'schemr', age: 34},
+        {id: 'B', name: 'chris', age: 33},
+        {id: 'C', name: 'zesta', age: 30}
     ]};
     deletePersonHandler = (index) => {
         const persons = [...this.state.persons];
@@ -14,6 +14,20 @@ class App extends Component {
         this.setState({
             persons:persons
         });
+    };
+
+    updatePersonHandler = (event, id) => {
+        const updatePersonIndex = this.state.persons.findIndex(p => {
+            return p.id === id;
+        });
+
+        const updatePerson = this.state.persons[updatePersonIndex]
+        updatePerson.name = event.target.value;
+        
+        const persons = [...this.state.persons];
+        persons[updatePersonIndex] = updatePerson;
+
+        this.setState({persons:persons});
     }
     render() {
     return (
@@ -24,8 +38,9 @@ class App extends Component {
                         <Person 
                             name={person.name} 
                             age={person.age}
-                            click={() => this.deletePersonHandler(index)} 
-                            key={index} />    
+                            click={() => this.deletePersonHandler(index)}
+                            edit={(event) => this.updatePersonHandler(event, person.id)} 
+                            key={person.id} />    
                     )
                 })
             }
