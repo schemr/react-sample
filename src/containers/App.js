@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Headrers from '../components/Headers/Headers';
 import Persons from '../components/Persons/Persons';
+import WithClass from '../hoc/WithClass';
 
 class App extends Component {
     state = {
@@ -47,14 +48,14 @@ class App extends Component {
             persons = <Persons persons={this.state.persons} clicked={this.deletePersonHandler} edited={this.updatePersonHandler} />
         }
         return (
-            <div className={classes.App}>
+            <WithClass classes={classes.App}>
                 <Headrers 
                     appTitle="React Sample App" 
                     clicked={this.togglePersonsHandler}
                     persons={this.state.persons}
                     showPersons={this.state.showPersons} />
                 {persons}      
-            </div>
+            </WithClass>
         );
         
     }
