@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
+import Headrers from '../components/Headers/Headers';
 import Persons from '../components/Persons/Persons';
 
 class App extends Component {
-    state = {persons:[
-        {id: 'A', name: 'schemr', age: 34},
-        {id: 'B', name: 'chris', age: 33},
-        {id: 'C', name: 'zesta', age: 30}
-    ]};
+    state = {
+        persons:[
+            {id: 'A', name: 'schemr', age: 34},
+            {id: 'B', name: 'chris', age: 33},
+            {id: 'C', name: 'zesta', age: 30}
+        ],
+        otherState: 'some other value',
+        showPersons: false
+    };
+
     deletePersonHandler = (index) => {
         const persons = [...this.state.persons];
         persons.splice(index, 1);
@@ -29,12 +35,28 @@ class App extends Component {
 
         this.setState({persons:persons});
     }
+
+    togglePersonsHandler = () => {
+        const doesShow = this.state.showPersons;
+        this.setState( { showPersons: !doesShow } );
+    }
+
     render() {
-    return (
-        <div className="App">
-            <Persons persons={this.state.persons} clicked={this.deletePersonHandler} edited={this.updatePersonHandler} />
-        </div>
-    );
+        let persons = null;
+        if ( this.state.showPersons ) {
+            persons = <Persons persons={this.state.persons} clicked={this.deletePersonHandler} edited={this.updatePersonHandler} />
+        }
+        return (
+            <div className={classes.App}>
+                <Headrers 
+                    appTitle="React Sample App" 
+                    clicked={this.togglePersonsHandler}
+                    persons={this.state.persons}
+                    showPersons={this.state.showPersons} />
+                {persons}      
+            </div>
+        );
+        
     }
 }
 
